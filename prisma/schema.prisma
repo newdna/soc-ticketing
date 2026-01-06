@@ -14,34 +14,53 @@ datasource db {
 }
 
 model User {
-  id			Int		@id @default(autoincrement())
-  email			String		@unique
-  name			String
-  ticket		Ticket[]
+  userID        String  @id @default(uuid())
+  name          String
+  passwordHash  String
+  email         String @unique
+  tickets       Ticket[]
 }
 
 model Threat {
+  threatID      String  @id @default(uuid())
+  name          String
+  category      String
+  severity      Int
+  description   String
+  tickets       Ticket[]
+}
 
+model DestinationDNS {
+  dnsID     String  @id @default(uuid())
+  dns       String
+  ticketID  String
+  Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
+}
+
+model DestinationIP {
+  dstID     String  @id @default(uuid())
+  ip        String
+  ticketID  String
+  Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
 }
 
 model Ticket {
-  id			Int		@id @default(autoincrement())
-  name			User		@relation(fields: [nameId], references: [id])
-  nameId		Int			
-  threatType		String		
-  threatName		String
-  threatCategory	String
-  hit			Int
-  trigger		DateTime
-  createdAt		DateTime	@default(now())
-  closedAt		DateTime	@closedAt
-  sensor		String
-  severity		String
-  status		String
-  verdict		String
-  sourceThreat		String?
-  srcip			String
-  dest			String[]?
-  destip		String[]
-  
+  ticketID          String  @id @default(uuid())
+  alert             DateTime
+  hit               Int
+  open              DateTime  @default(now())
+  close             DateTime?
+  priority          String
+  verdict           String?
+  srcIP             String
+  type              String
+  geoLocation       String
+  userID            String
+  threatID          String
+  dnsID             String
+  dstID             String
+  User              User    @relation(fields: [userID], references: [userID])
+  Threat            Threat  @relation(fields: [threatID], references: [threatID])
+  DestinationDNS    DestinationDNS[]
+  DestinationIP     DestinationIP[]
 }
