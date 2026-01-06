@@ -12,3 +12,36 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id			Int		@id @default(autoincrement())
+  email			String		@unique
+  name			String
+  ticket		Ticket[]
+}
+
+model Threat {
+
+}
+
+model Ticket {
+  id			Int		@id @default(autoincrement())
+  name			User		@relation(fields: [nameId], references: [id])
+  nameId		Int			
+  threatType		String		
+  threatName		String
+  threatCategory	String
+  hit			Int
+  trigger		DateTime
+  createdAt		DateTime	@default(now())
+  closedAt		DateTime	@closedAt
+  sensor		String
+  severity		String
+  status		String
+  verdict		String
+  sourceThreat		String?
+  srcip			String
+  dest			String[]?
+  destip		String[]
+  
+}
