@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../lib/prisma.js";
 import bcrypt from "bcrypt";
 
-export const login = async (email: string, password: string) => {
+export const userLogin = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) throw new Error("Invalid credentials");
 

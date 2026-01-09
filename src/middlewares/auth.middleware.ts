@@ -25,7 +25,7 @@ export const requireAuth = (
     }
 
     req.body.user = {
-      userID: decoded.name,
+      userID: decoded.userID,
     };
     
 

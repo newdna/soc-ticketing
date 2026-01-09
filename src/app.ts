@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
 import dotenv from "dotenv";
-import { register, hello } from "./controllers/auth.controller.js"
+import { register, hello, login } from "./controllers/auth.controller.js"
 import { requireAuth } from "./middlewares/auth.middleware.js";
 
 dotenv.config();
@@ -26,6 +26,7 @@ app.post("/api/register", register);
 
 app.post("/api/hello", requireAuth, hello);
 
+app.post("/api/login", login);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
