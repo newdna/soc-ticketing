@@ -1,0 +1,23 @@
+import { prisma } from "../../lib/prisma";
+import bcrypt from "bcrypt";
+
+export const register = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  return prisma.user.create({
+    data: {
+      name,
+      email,
+      passwordHash,
+    },
+    select: {
+      userID: true,
+      name: true,
+      email: true,
+    },
+  });
+};
