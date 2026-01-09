@@ -1,0 +1,32 @@
+import express, { type Request, type Response } from "express";
+import dotenv from "dotenv";
+import { register, hello } from "./controllers/auth.controller.js"
+import { requireAuth } from "./middlewares/auth.middleware.js";
+
+dotenv.config();
+const app = express();
+const PORT = process.env.PORT
+
+app.use(express.json());
+
+// Health check
+app.get("/health", (req: Request, res: Response) => {
+  res.json({ status: "OK" });
+});
+
+// Example API route
+app.post("/api/v1", (req: Request, res: Response) => {
+  res.json({
+    message: "API is working",
+    body: req.body,
+  });
+});
+
+app.post("/api/register", register);
+
+app.post("/api/hello", requireAuth, hello);
+
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

@@ -6,29 +6,28 @@ export const requireAuth = (
   res: Response,
   next: NextFunction
 ) => {
-  const header = req.headers.authorization;
-  if (!header) return res.sendStatus(401);
+  const auth = req.get('Authorization') || "";
 
-  const token = header.split(" ")[1];
-
+  const token = auth.split(" ")[1] || "";
+  console.log(token);
   try {
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string
     );
-
-    // 🔐 Runtime type guard
+  console.log(decoded);
     if (
       typeof decoded !== "object" ||
       decoded === null ||
-      !("userID" in decoded)
+      !("name" in decoded)
     ) {
       return res.sendStatus(401);
     }
 
-    req.user = {
-      userID: (decoded as AuthPayload).userID,
+    req.body.user = {
+      userID: decoded.name,
     };
+    
 
     next();
   } catch {
