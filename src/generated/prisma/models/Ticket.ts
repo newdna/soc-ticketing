@@ -692,10 +692,6 @@ export type TicketUpdateOneRequiredWithoutDestinationIPNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TicketUpdateToOneWithWhereWithoutDestinationIPInput, Prisma.TicketUpdateWithoutDestinationIPInput>, Prisma.TicketUncheckedUpdateWithoutDestinationIPInput>
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }

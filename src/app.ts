@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { register, hello, login } from './controllers/auth.controller.js';
 import { requireAuth } from './middlewares/auth.middleware.js';
+import authRoutes from './routes/auth.route.js'
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,8 @@ app.post("/api/v1", (req: express.Request, res: express.Response) => {
     body: req.body,
   });
 });
+
+app.use("/api/", authRoutes);
 
 app.post("/api/register", register);
 
