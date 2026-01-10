@@ -1,10 +1,10 @@
-import jwt from "jsonwebtoken";
-import { type Request, type Response, type NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import express from 'express';
 
 export const requireAuth = (
-  req: Request,
-  res: Response,
-  next: NextFunction
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
 ) => {
   const auth = req.get('Authorization') || "";
 

@@ -1,7 +1,7 @@
-import express, { type Request, type Response } from "express";
-import dotenv from "dotenv";
-import { register, hello, login } from "./controllers/auth.controller.js"
-import { requireAuth } from "./middlewares/auth.middleware.js";
+import express from 'express';
+import dotenv from 'dotenv';
+import { register, hello, login } from './controllers/auth.controller.js';
+import { requireAuth } from './middlewares/auth.middleware.js';
 
 dotenv.config();
 const app = express();
@@ -10,12 +10,12 @@ const PORT = process.env.PORT
 app.use(express.json());
 
 // Health check
-app.get("/health", (req: Request, res: Response) => {
+app.get("/health", (req: express.Request, res: express.Response) => {
   res.json({ status: "OK" });
 });
 
 // Example API route
-app.post("/api/v1", (req: Request, res: Response) => {
+app.post("/api/v1", (req: express.Request, res: express.Response) => {
   res.json({
     message: "API is working",
     body: req.body,
