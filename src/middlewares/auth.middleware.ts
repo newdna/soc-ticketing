@@ -1,37 +1,38 @@
-import jwt from "jsonwebtoken";
-import { type Request, type Response, type NextFunction } from "express";
+import jwt from 'jsonwebtoken';
+import express from 'express';
 
 export const requireAuth = (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
 ) => {
-  const header = req.headers.authorization;
-  if (!header) return res.sendStatus(401);
+    const auth = req.get('Authorization') || "";
 
-  const token = header.split(" ")[1];
+    const token = auth.split(" ")[1] || "";
+    //   console.log(token);
+    try {
+        const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET as string
+        );
+    // console.log(decoded);
+        if (
+        typeof decoded !== "object" ||
+        decoded === null ||
+        !("name" in decoded)
+        ) {
+            console.log(decoded);
+            return res.sendStatus(401);
+        }
 
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    );
-
-    // 🔐 Runtime type guard
-    if (
-      typeof decoded !== "object" ||
-      decoded === null ||
-      !("userID" in decoded)
-    ) {
-      return res.sendStatus(401);
+        req.body.user = {
+        userID: decoded.userID,
+        userName: decoded.name,
+        userEmail: decoded.email
+        };
+        
+        next();
+    } catch {
+        res.sendStatus(401);
     }
-
-    req.user = {
-      userID: (decoded as AuthPayload).userID,
-    };
-
-    next();
-  } catch {
-    res.sendStatus(401);
-  }
 };

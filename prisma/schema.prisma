@@ -1,66 +1,68 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
 }
 
 model User {
-  userID        String  @id @default(uuid())
-  name          String
-  passwordHash  String
-  email         String @unique
-  tickets       Ticket[]
+    userID        String    @id @default(uuid())
+    name          String
+    passwordHash  String
+    email         String    @unique
+    tickets       Ticket[]
+}
+
+model Auth {
+    id          String      @id @default(uuid())
+    email       String      @unique
+    code        String
+    expiresAt   DateTime
+    createdAt   DateTime    @default(now())
 }
 
 model Threat {
-  threatID      String  @id @default(uuid())
-  name          String
-  category      String
-  severity      Int
-  description   String
-  tickets       Ticket[]
+    threatID      String    @id @default(uuid())
+    name          String
+    category      String
+    severity      Int
+    description   String
+    tickets       Ticket[]
 }
 
 model DestinationDNS {
-  dnsID     String  @id @default(uuid())
-  dns       String
-  ticketID  String
-  Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
+    dnsID     String  @id @default(uuid())
+    dns       String
+    ticketID  String
+    Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
 }
 
 model DestinationIP {
-  dstID     String  @id @default(uuid())
-  ip        String
-  ticketID  String
-  Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
+    dstID     String  @id @default(uuid())
+    ip        String
+    ticketID  String
+    Ticket    Ticket  @relation(fields: [ticketID], references: [ticketID])
 }
 
 model Ticket {
-  ticketID          String  @id @default(uuid())
-  alert             DateTime
-  hit               Int
-  open              DateTime  @default(now())
-  close             DateTime?
-  priority          String
-  verdict           String?
-  srcIP             String
-  type              String
-  geoLocation       String
-  userID            String
-  threatID          String
-  dnsID             String
-  dstID             String
-  User              User    @relation(fields: [userID], references: [userID])
-  Threat            Threat  @relation(fields: [threatID], references: [threatID])
-  DestinationDNS    DestinationDNS[]
-  DestinationIP     DestinationIP[]
+    ticketID          String    @id @default(uuid())
+    alert             DateTime
+    hit               Int
+    open              DateTime  @default(now())
+    close             DateTime?
+    priority          String
+    verdict           String?
+    srcIP             String
+    type              String
+    geoLocation       String
+    userID            String
+    threatID          String
+    dnsID             String
+    dstID             String
+    User              User      @relation(fields: [userID], references: [userID])
+    Threat            Threat    @relation(fields: [threatID], references: [threatID])
+    DestinationDNS    DestinationDNS[]
+    DestinationIP     DestinationIP[]
 }
