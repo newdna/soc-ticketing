@@ -7,6 +7,6 @@ const router = Router();
 router.post("/register", register);
 router.post("/verify-email", verifyEmail);
 router.post("/login", login);
-router.get("/authenticated", requireAuth, hello);
+router.post("/authenticated", requireAuth, hello);
 
 export default router;

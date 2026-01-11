@@ -9,13 +9,13 @@ export const requireAuth = (
   const auth = req.get('Authorization') || "";
 
   const token = auth.split(" ")[1] || "";
-  console.log(token);
+//   console.log(token);
   try {
     const decoded = jwt.verify(
       token,
       process.env.JWT_SECRET as string
     );
-  console.log(decoded);
+//   console.log(decoded);
     if (
       typeof decoded !== "object" ||
       decoded === null ||
@@ -24,13 +24,12 @@ export const requireAuth = (
       return res.sendStatus(401);
     }
 
-    req.body.user = {
+    return req.body.user = {
       userID: decoded.userID,
       userName: decoded.name,
       userEmail: decoded.email
     };
     
-
     next();
   } catch {
     res.sendStatus(401);

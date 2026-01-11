@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { verificationEmailHtml, verificationEmailText } from '../utils/user.utils.js';
 
 dotenv.config(); 
 
@@ -15,9 +16,10 @@ export async function sendVerificationEmail(email: string, code: string) {
     });
 
     await transporter.sendMail({
-        from: 'SOC Ticket <no-reply@soc-ticket.com>',
+        from: '"SOC Ticket" <no-reply@soc-ticket.com>',
         to: email,
         subject: "Verify your email",
-        text: `Your verification code is: ${code}`,
+        text: verificationEmailText(code),
+        html: verificationEmailHtml(code)
     });
 }
