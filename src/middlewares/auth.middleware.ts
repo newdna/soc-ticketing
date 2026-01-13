@@ -19,7 +19,7 @@ export const requireAuth = (
         if (
         typeof decoded !== "object" ||
         decoded === null ||
-        !("name" in decoded)
+        !("userID" in decoded)
         ) {
             console.log(decoded);
             return res.sendStatus(401);
