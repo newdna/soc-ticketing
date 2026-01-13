@@ -1,7 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-// import { register, hello, login } from './controllers/auth.controller.js';
-import { requireAuth } from './middlewares/auth.middleware.js';
 import authRoutes from './routes/auth.route.js'
 
 dotenv.config();
@@ -22,11 +20,6 @@ app.get("/api/v1", (req: express.Request, res: express.Response) => {
 // Routes
 app.use("/api/", authRoutes);
 
-// app.post("/api/register", register);
-
-// app.post("/api/hello", requireAuth, hello);
-
-// app.post("/api/login", login);
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
