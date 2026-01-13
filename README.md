@@ -32,6 +32,9 @@ host    all     all     127.0.0.1/32    scram-sha-256
 
 # IPv6 localhost
 host    all     all     ::1/128         scram-sha-256
+
+# Restart the postgresql service
+$ sudo systemctl restart postgresql
 ```
 3. Run npx prisma migrate dev
 ```
